@@ -1,0 +1,10 @@
+prefix: "<gray>[<red>Bingo<orange>Reloaded<gray>]<reset>"
+
+# [-] will be replaced with the prefix
+stage:
+  waiting:
+    start-countdown: "[-] <green>全员准备完成，倒计时开始!"
+    cancel-countdown:
+      not-enough-players: "[-] <red>人数不足, 取消倒计时!"
+      not-ready: "[-] <red>有人取消了准备, 取消倒计时!"
+    countdown-message: "[-] <yellow>游戏将在 &b%time%<yellow> 秒后开始!"

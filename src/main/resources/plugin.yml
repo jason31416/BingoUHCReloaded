@@ -1,0 +1,9 @@
+name: BingoUHCReloaded
+version: ${project.version}
+main: dev.onelili.bingoreloaded.BingoUHCReloaded
+api-version: '1.20'
+load: STARTUP
+authors: [ oneLiLi ]
+
+commands:
+  bingo:
