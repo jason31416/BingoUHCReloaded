@@ -19,17 +19,16 @@ public class ObservingStage extends Stage {
 
     @Override
     public void end(@NotNull Stage to) {
-
     }
 
     @Override
     public void perTick() {
-
     }
 
     @Override
     public void onMove(@NotNull PlayerMoveEvent event) {
-        if(event.getTo()==null) return;
+        if(event.getTo() == null)
+            return;
         Location loc = event.getTo();
         Team team = arena.getPlayerTeam(SimplePlayer.of(event.getPlayer()));
         if(team == null) return;
