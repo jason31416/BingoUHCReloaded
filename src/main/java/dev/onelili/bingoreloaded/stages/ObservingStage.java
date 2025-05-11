@@ -23,6 +23,7 @@ public class ObservingStage extends Stage {
 
     @Override
     public void perTick() {
+
     }
 
     @Override
