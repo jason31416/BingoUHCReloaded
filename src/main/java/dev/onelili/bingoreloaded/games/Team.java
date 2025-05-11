@@ -23,7 +23,7 @@ public class Team {
     private final List<Material> collected = new ArrayList<>();
     @Getter
     private final Set<SimplePlayer> players = new HashSet<>();
-    @Getter
+    @Getter @NotNull
     private final SimpleLocation teamSpawn;
     public Team (@NotNull Color color, @NotNull Material item, @NotNull Panel.RendererPosition position, SimpleLocation spawn) {
         this.teamColor = color;

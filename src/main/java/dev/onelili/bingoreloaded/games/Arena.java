@@ -5,8 +5,10 @@ import cn.jason31416.planetlib.PlanetLib;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import cn.jason31416.planetlib.wrapper.SimpleWorld;
 import dev.onelili.bingoreloaded.resources.Config;
+import dev.onelili.bingoreloaded.stages.Stage;
 import dev.onelili.bingoreloaded.stages.WaitingStage;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
@@ -14,10 +16,13 @@ import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+
+import static dev.onelili.bingoreloaded.utils.FileUtil.deletePath;
 
 public class Arena implements Listener {
     //=========================================================================================================//
@@ -94,7 +99,15 @@ public class Arena implements Listener {
     }
     public void close() {
         perTickTask.cancel();
-        // todo: 删世界
+        File[] folders = new File[] {
+                world.getBukkitWorld().getWorldFolder(),
+                nether.getBukkitWorld().getWorldFolder(),
+                end.getBukkitWorld().getWorldFolder()
+        };
+        Bukkit.unloadWorld(world.getBukkitWorld(), false);
+        Bukkit.unloadWorld(nether.getBukkitWorld(), false);
+        Bukkit.unloadWorld(end.getBukkitWorld(), false);
+        for (File file : folders)
+            deletePath(file);
     }
-    //=========================================================================================================//
 }

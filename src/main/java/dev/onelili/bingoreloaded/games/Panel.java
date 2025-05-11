@@ -1,8 +1,13 @@
 package dev.onelili.bingoreloaded.games;
 
+import cn.jason31416.planetlib.PlanetLib;
 import lombok.Getter;
+import lombok.SneakyThrows;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.map.MapCanvas;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
@@ -14,6 +19,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 public class Panel extends MapRenderer {
     public enum RendererPosition {
@@ -29,10 +36,13 @@ public class Panel extends MapRenderer {
     private final BufferedImage[][] textures;
     @Getter
     private BufferedImage image;
+    @Getter
+    private final MapView view;
 
     private final Arena arena;
 
-    public Panel(@NotNull Arena arena, @NotNull Material[][] materials) throws RuntimeException {
+    @SneakyThrows
+    public Panel(@NotNull Arena arena, @NotNull Material[][] materials) {
         this.arena = arena;
         this.materials = materials;
         this.textures = new BufferedImage[5][5];
@@ -45,6 +55,12 @@ public class Panel extends MapRenderer {
                     throw new RuntimeException(e);
                 }
             }
+        CompletableFuture<MapView> future = new CompletableFuture<>();
+        PlanetLib.getScheduler().runNextTick(task -> future.complete(Bukkit.createMap(Bukkit.getWorlds().get(0))));
+        view = future.get(40, TimeUnit.MILLISECONDS);
+        for (MapRenderer renderer : view.getRenderers())
+            view.removeRenderer(renderer);
+        view.addRenderer(this);
     }
 
     @Override
@@ -83,6 +99,15 @@ public class Panel extends MapRenderer {
                 graphics.drawImage(textures[i][j], i * 24 + 8, j * 24 + 8, null);
             }
         graphics.dispose();
+    }
+    @NotNull
+    public ItemStack getItem() {
+        ItemStack ret = new ItemStack(Material.FILLED_MAP);
+        if(ret.getItemMeta() instanceof MapMeta meta) {
+            meta.setMapView(view);
+            ret.setItemMeta(meta);
+        }
+        return ret;
     }
     public static void _fill(int sx, int sy, int ex, int ey, BufferedImage image, Color color) {
         for (int i = sy; i <= ey; i++)

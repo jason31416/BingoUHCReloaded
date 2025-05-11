@@ -4,7 +4,7 @@ import cn.jason31416.planetlib.PlanetLib;
 import cn.jason31416.planetlib.Required;
 import cn.jason31416.planetlib.message.InternalPlaceholder;
 import cn.jason31416.planetlib.message.MessageLoader;
-import dev.onelili.bingoreloaded.command.BingoCommand;
+import dev.onelili.bingoreloaded.commands.BingoCommand;
 import dev.onelili.bingoreloaded.games.Arena;
 import dev.onelili.bingoreloaded.resources.Config;
 import dev.onelili.bingoreloaded.resources.Lang;

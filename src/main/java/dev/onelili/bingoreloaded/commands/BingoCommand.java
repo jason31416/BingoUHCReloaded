@@ -1,4 +1,4 @@
-package dev.onelili.bingoreloaded.command;
+package dev.onelili.bingoreloaded.commands;
 
 import cn.jason31416.planetlib.command.ICommandContext;
 import cn.jason31416.planetlib.command.RootCommand;

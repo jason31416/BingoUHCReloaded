@@ -1,10 +1,11 @@
 package dev.onelili.bingoreloaded.stages;
 
+import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import dev.onelili.bingoreloaded.games.Arena;
-import dev.onelili.bingoreloaded.games.Stage;
 import dev.onelili.bingoreloaded.resources.Config;
 import dev.onelili.bingoreloaded.resources.Lang;
+import org.bukkit.GameMode;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,10 +21,15 @@ public class WaitingStage extends Stage {
     }
 
     @Override
-    public void init (@NotNull Stage from) {}
+    public void init (@NotNull Stage from) {
+        arena.getWorld().getBukkitWorld().getWorldBorder().setCenter(arena.getWorld().getBukkitWorld().getSpawnLocation());
+        arena.getWorld().getBukkitWorld().getWorldBorder().setSize(32);
+    }
 
     @Override
-    public void end(@NotNull Stage to) {}
+    public void end(@NotNull Stage to) {
+        arena.getWorld().getBukkitWorld().getWorldBorder().setSize(29999984);
+    }
 
     @Override
     public void perTick() {
@@ -63,6 +69,8 @@ public class WaitingStage extends Stage {
     public JoinType onJoin(@NotNull SimplePlayer player) {
         if(arena.getPlayers().size()>=Config.getInt("arena-settings.max-players", 16)) return JoinType.DECLINE;
         readyStates.put(player, false);
+        player.getPlayer().setGameMode(GameMode.ADVENTURE);
+        player.teleport(SimpleLocation.of(arena.getWorld().getBukkitWorld().getSpawnLocation()));
         return JoinType.ACCEPT;
     }
     @Override

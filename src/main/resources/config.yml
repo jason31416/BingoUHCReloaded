@@ -7,4 +7,6 @@ arena-settings:
   max-players: 16
 
   countdown-time: 10
+  observing-time: 30
+
   reminder-times: [ 5, 3, 2, 1 ]
