@@ -1,0 +1,10 @@
+language: "zh-cn" # Must be a file inside the lang folder
+
+arena-settings:
+  world-generator: ""
+
+  min-players: 2
+  max-players: 16
+
+  countdown-time: 10
+  reminder-times: [ 5, 3, 2, 1 ]
