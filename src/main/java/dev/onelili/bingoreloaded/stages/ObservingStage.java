@@ -10,8 +10,10 @@ import org.bukkit.Location;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class ObservingStage extends Stage {
-    private double timer = 0;
+    private double timer = 0, maxTimer=0;
 
     public ObservingStage(Arena arena) {
         super(arena);
@@ -25,10 +27,11 @@ public class ObservingStage extends Stage {
                 p.teleport(SimpleLocation.of(arena.getWorld().getBukkitWorld().getSpawnLocation()));
             } else {
                 p.getPlayer().setGameMode(GameMode.SURVIVAL);
-                p.teleport(arena.getPlayerTeam(p).getTeamSpawn());
+                p.teleport(Objects.requireNonNull(arena.getPlayerTeam(p)).getTeamSpawn());
             }
         });
         timer = Config.getDouble("arena-settings.observing-time");
+        maxTimer = Config.getDouble("arena-settings.observing-time");
     }
 
     @Override
@@ -37,7 +40,14 @@ public class ObservingStage extends Stage {
 
     @Override
     public void perTick() {
-        if (--timer < 0) {
+        arena.getPlayers().forEach(p->{
+            if(p.getPlayer().getGameMode()!=GameMode.SPECTATOR){
+                p.getPlayer().setExp((float) (timer / maxTimer));
+                p.getPlayer().setLevel((int) timer);
+            }
+        });
+        timer -= 0.05;
+        if (timer <= 0) {
             arena.setCurrentStage(new RunningStage(arena));
         }
     }

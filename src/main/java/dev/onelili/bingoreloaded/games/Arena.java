@@ -41,16 +41,21 @@ public class Arena implements Listener {
     private Stage currentStage;
     private final WrappedTask perTickTask;
     //=========================================================================================================//
+    @Getter
+    private final Panel panel;
+    //=========================================================================================================//
     private Arena (
             @NotNull UUID arenaID,
             @NotNull SimpleWorld world,
             @NotNull SimpleWorld nether,
-            @NotNull SimpleWorld end
+            @NotNull SimpleWorld end,
+            @NotNull Panel panel
     ) {
         this.arenaID = arenaID;
         this.world = world;
         this.nether = nether;
         this.end = end;
+        this.panel = panel;
         perTickTask = PlanetLib.getScheduler().runTimerAsync(() -> currentStage.perTick(), 1L, 1L);
     }
     @Nullable
